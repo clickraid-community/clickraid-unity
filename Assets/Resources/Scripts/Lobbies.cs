@@ -6,6 +6,7 @@ using Steamworks;
 using UnityEngine;
 
 public class Lobbies : MonoBehaviour {
+    public static CSteamID Active;
     private CallResult<LobbyMatchList_t> RequestLobbyListCallResult;
     private CallResult<LobbyCreated_t> CreateLobbyCallResult;
     private CSteamID _activeLobbyId;
@@ -21,12 +22,7 @@ public class Lobbies : MonoBehaviour {
         Debug.Log(_activeLobbyId.IsLobby());
     }
     void Update() {
-        // @TODO throttle
-        if (_activeLobbyId.IsLobby()) {
-            SteamMatchmaking.SetLobbyMemberData(_activeLobbyId, "x", Input.mousePosition.x.ToString());
-            SteamMatchmaking.SetLobbyMemberData(_activeLobbyId, "y", Input.mousePosition.y.ToString());
-            SteamMatchmaking.SetLobbyMemberData(_activeLobbyId, "personaName", SteamFriends.GetPersonaName());
-        }
+        Active = _activeLobbyId;
     }
     void OnGUI() {
         GUILayout.Label("Lobby Status: " + ((_activeLobbyId.IsLobby()) ? "Connected!" : "Solo X("));
